@@ -96,7 +96,14 @@ WEBSITE: http://cs.ou.edu/~fagg/classes/cs3113_f19/
 	* The OS then lays a file system on top
 * Files
 	* How is a file stored on a disk?
-		* Depending on size ... 
+		* Depending on size, a file is allocated some number
+		of sectors (blocks)
+		* While data within a block is contiguous (sharing a
+		common border, touching), the different blocks that
+		are used to represent a file are not necessarily
+		contiguous
+		* Need some way of tracking which blocks belong to
+		a file and what their order is (e.g., inodes) 
 * File Systems
 	* Allows us to:
 		* represent a set of files
