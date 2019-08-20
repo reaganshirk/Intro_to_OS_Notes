@@ -1,0 +1,156 @@
+WEBSITE: http://cs.ou.edu/~fagg/classes/cs3113_f19/
+
+* What is an operating system?
+	* Layer of abstraction between the machine and the user
+	* Intermediary between a user and the hardware
+	* User = person, application, etc
+* Goals of an OS
+	* Resource utilization
+	* Easy to build stuff
+	* Easy to move stuff to other systems
+	* Ease of use, not worrying about where the bytes are, etc
+	* Use hardware in a secure and efficient manner
+* Computer System Structure
+	* Four different 'classes' of components
+		* Hardware - provides basic resources
+			* CPU, memory, I/O devices
+		* Operating system
+			* Controls and coordiantes use of hardware among
+			various applications and users
+		* Application programs - define the ways in which the
+		system resources are used to solve computing problems
+		* Users
+* What do Operating Systems do?
+	* Act as GUI between hardware and user
+	* Standardized a way to interact with computers, i.e. made
+	it so that someone who doesn't know much about hardware
+	could know which OS they prefer to make their decision
+	* It depends...
+		* convenience, ease of use, good performance
+		* individuals don't necessarily care about resourse
+		utilization
+		* A shared computer must keep all users happy
+		* Users of dedicate systems have dedicated resources
+		but often use shared resources from servers
+		* Handheld computers are resource poor and are
+		optimized for usability and battery life
+		* Some computers have little or no user interface
+			* i.e. embedded computers in devices and
+			automobiles
+* Operating System Definition
+	* OS is a resource allocator
+		* Manages all hardware resources
+		* Decides between conflicting requests for efficient
+		and fair resource use
+	* Control program
+		* Controls execution of programs to prevent errors and
+		improper use 
+	* Provides abstractions
+		* Common abstractions provided by the OS:
+			* A program has exclusive access to the CPU and
+			Other hardware devices
+			* Unbounded access to memory
+			* Directories and files
+			* Reliable communication between programs and
+			computers
+			* no errors in: execution, communication,
+			device interaction
+* RAM (random access memory)
+	* What is RAM and how is it organized?
+		* data stored in a sequence of bytes
+		* each byte has an address (0, 1, 2 ... )
+		* random: can access any byte as fast as the other
+		byte
+	* RAM for processes
+		* process: executing program
+		* What does memory look like from the prespective of a
+		process?
+			* Also addressable
+			* an individual variable is assigned to 'live' in
+			one or more bytes
+			* Overlay data structures (with some hardware
+			support)
+				* stack (locally defined storage) and heap
+				(dynamically defined storage)
+	* OS role in memory
+		* providing process with the memory that they need as
+		they are executing
+			* a process doesn't usually need all of its
+			memory available all of the time
+		* allowing multiple processes to co-exist safely
+			* usually each has exclusive access to its
+			own memory
+			* memory can be shared across processes if needed
+		* providing buffering for I/O activities
+* Structure of a Hard Disk
+	* A sector of the disk is a sequence of bits
+		* Encoded by orientation of localized magnetic fields
+	* Disk controller provides sector track read/write
+	operations
+	* Disk design varies
+		* sector size
+		* number of platters
+		* speed of spindle rotation
+		* protocol for the computer talking to the disk
+	* Job of the device driver: handle low level abstractions
+	* The OS then lays a file system on top
+* Files
+	* How is a file stored on a disk?
+		* Depending on size ... 
+* File Systems
+	* Allows us to:
+		* represent a set of files
+		* organize tehse files in a useful way, i.e.
+		directory trees
+	* Modern systems also enable:
+		* file system distributed across multiple disks and
+		multiple computers
+		* redundancy and automatic recovery
+* Your background
+	* Programming
+		* control structures and primitive data types
+		* substantial design and debugging experience
+		* building abstractions
+	* Algorithms and theory
+		* building space and time efficient data structures
+	* Hardware
+		* computer organization
+	* This class brings all of these things together
+	* Sets up for bigger things
+		* databases
+		* communication networks
+		* high performance computing
+		* embedded systems
+* This semester:
+	* Theory and practice
+		* Systems-level programming in C
+		* *nix system calls
+		* File systems: properties and implementation
+		* Processes and threads: pipes, concurrency,
+		syncronization
+		* I/O and process scheduling
+		* Security (yay)
+		* Virtual machines
+* Projects
+	* practice of OS requires real practice
+		* projects are designed to exercise algorithm and low
+		level programming skills
+		* five 2-3 week projects
+		* individual
+	* procedures
+		* programming, testing, debugging on a standard Linux
+		running on personal machine
+			* virtualbox to host
+			* practice using command line tools
+		* submission to gradescope
+			* connected through canvas
+			* automatic testing
+			* feedback provided
+* Assumptions about us
+	* Data structures and comp org
+	* C/C++
+		* control structures and primitive data types
+		* substantial design and debugging skill
+	* computer system
+		* laptop or equivalent for class
+		* laptop or desktop for outside work
