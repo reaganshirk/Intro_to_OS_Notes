@@ -1,0 +1,43 @@
+Summary points taken from the end of the chapter, summarized in my own words.
+
+* An operating system is software that manages hardware and gives
+an environement for applications to run.
+* Interrupts are a way that the hardware interacts with the
+software. A signal is given to the CPU to let the OS know that an
+event needs attention. Managed by the interruption handler.
+* Main memory is the only large memory that can be accessed
+directly by the processor, therefore programs must be in main 
+memory for the computer to execute it.
+* Main memory is volatile and loses information when power is
+lost/turned off.
+* Nonvolatile storage can hold a lot of data permanently - 
+extension of main memory.
+* The most common type of nonvolatile storage is a hard disk
+that can store large amounts of programs and data.
+* Sotrage systems can be organized by speed and cost.
+Faster = more expensive.
+* Modern computers have multiprocessor systems where each CPU has
+several computing cores.
+* Modern operating systems use multiprogramming systems where
+several jobs will be in memory at once so the CPU always has 
+something to do.
+* An extension of multiprogramming is multitasking where the
+CPU can switch processes to give the user a fast response time.
+* The user mode and kernal mode exist to prevent user programs
+from messing with OS functions.
+* There are instructions such as I/O control, timer management,
+etc. that can only be executed in kernal mode.
+* The fundamental unit of work in an OS is the process. Process
+management is creating/deleting processes and allowing them to 
+communicate with each other.
+* Memory is managed by keeping track of who is using what memory.
+It also dynamically creates and frees memory space.
+* The OS manages storage space.
+* OS's provide security measures to protect itself and its users.
+* Virtualization splits the hardware into several different
+execution environments.
+* Used data structures include ueues, stacks, lists, trees, and
+maps.
+* Computing happens in several different environments.
+* Free and open source OS's are available for no-cost use,
+redistribution, and modification.
