@@ -1,0 +1,225 @@
+* In the beginning...
+	* Uniprocessors
+		* They had no real OS, programs accessed hardware
+		directly. Serious, fast programming = assembly code,
+		hand compilation, storing bit by bit
+		* They would execute one program at a time
+		* I/O was very slow
+		* Program would wait for I/O
+			* Program would literally write out to a cassette
+			tape
+			* What's wrong with waiting for I/O?
+				* Poor CPU utilization. They're spensive
+				and using such a small percentage is a
+				waste of money
+			* Lots of waiting for long periods of time. How
+			to fix this issue? Multiprogramming/multitasking.
+* Multiprogramming
+	* We need:
+		* Figure out when to switch jobs and which job to run
+		* The memory space to fit the jobs being executed
+		* A mechanism that performs the switching
+	* These functions are provided by the OS
+* Processes
+	* A process is a program in execution
+		* Unit of work within the system
+		* Program is a passive entity, process is the active
+		entity
+	* Process needs resources to accomplish its task
+		* CPU, memory, I/O, files
+	* OS manages these resources
+		* Process termination requires the OS to reclaim any
+		of the reusable sources
+		* OS starts and terminates the process
+		* OS does garbage collection
+	* Single threaded process has:
+		* One program counter specifying location of next
+		instruction to execute
+			* Process executes instructions sequentially
+			until completion
+			* Program counter: stores the address of the next
+			instruction
+		* One execution stack
+	* Typically a system has many processes
+		* Some user related, some OS related
+			* user = browser, word, messaging, etc
+			* OS = stuff the kernal needs/does? Not
+			sure what the proper grammar is there.
+		* Running concurrently on one or more CPUs
+	* Multithreading:
+		* Even more complicated systems support multithreaded
+		processes: a process has one program counter per
+		thread
+		* Allows execution of many closely-linked tasks in
+		parallel
+		* GCP: As more tests were added and buggy code was
+		being tested, it took forever to get from first person
+		to last person for testing (didn't catch how this was 
+		relevant? must be issue with single thread that the
+		multithread could solve)
+* Process Management Activities
+	* The OS does:
+		* creating and deleting user and system processes
+		* suspending and resuming processes
+		* scheduling processes to have access to resources
+		including the CPU
+		* providing mechanisms for process synchronization 
+		and deadlock handling (for multithreaded processes)
+		* providing mechanisms for process communications
+		(also for multithreaded processes?)
+* Efficient use of CPU
+	* Multiprogramming
+		* Switch between processes as CPU becomes idle
+			* like if the process is waiting for I/O
+		* Scheduling processes is relatively straightforward
+	* Multitasking
+		* Switch quickly between processes automatically
+			* processes have a fixed upper bound of time
+			before needing to wait
+		* allows processes to appear like they are responding
+		in real time to the user
+		* Scheduling processes and their memory use is	
+		challenging
+* Protection with Processor Modes
+	* Dual mode operation allows the OS to protect itself and
+	other system components
+		* Mode bit provided in the hardware
+			* user mode and kernal mode
+		* Provides ability to distinguish when system is
+		running user code versus kernel code
+		* Some instructions designated as privileged and can
+		only be executed in kernel mode
+		* Some hardware can only be manipulated in privileged
+		mode
+	* System calls change mode from user to kernel
+		* Allow safe manipulation of kernel data structures
+		and hardware
+		* return from call resets mode to user
+	* Increasingly CPUs support multimode operations
+		* virtual machine manager mode for guest VMs
+	* User mode and kernal mode are to keep the user from
+	messing with processes unless intentionally desired
+	* System calls
+		* Allow a user program to rerquest services from the
+		kernel
+			* Including I/O and process management services
+		* When designed properly, users can't do things in
+		kernel mode
+* Computer System Organization
+	* Commun Bus Strucgture
+		* One or more CPUs, device controllers connect through
+		a common bus system that provides access to shared
+		memory
+		* Concurrent execution of CPUs and devices
+			* All can compete for memory cycles
+* Computer System Operation
+	* I/O devices and the CPU execute concurrently
+		* Each device controller is in charge of a particular
+		device
+		* Data sent to or received from the device are stored
+		in a local buffer
+		* CPU moves data between these local buffers and main 
+		memory
+		* When a device controller completes an I/O operation,
+		it informs the CPU by causing an interrupt
+* Interrupts
+	* An operating system is interrupt driven
+		* An interrupt transfers control from the currently
+		executing program to the appropriate interrupt service
+		routine
+			* A wire says "I have new data!" and the CPU
+			stops what it's doing to go look at the new data
+			and do what it needs to do. CPU goes back to work
+			and the process has no idea that an interrupt has
+			happened.
+		* Interrupt architecture must save the address of the
+		interrupted instruction, as well as the state of the
+		registers.
+		* A trap or exception is a software generated
+		interrupt cuased either by an error or a user request
+		* To the person looking at my notes: help me
+		understand these timeline diagrams, I'm not a visual
+		person and they confuse the shit out of me.
+* Storage Definitions
+	* How do we quantify storage?
+		* Bits
+		* Bytes (kilobytes, megabytes, gigabytes, terabytes,
+		etc)
+		* Fun fact: 4 bits is a nibble (nybble? I didn't hear 
+		the spelling).
+	* Types of storage
+		* Volatile
+			* Goes away when power is lost
+		* Nonvolatile
+			* Stays when power is lost
+		* Registers
+			* Built into CPU, does mathematical operations?
+		* Cache
+			* Volatile memory, sits between registers and
+			main memory. Bigger than register smaller than
+			main memory
+		* Main memory
+			* RAM
+			* Only large storage media that the CPU can
+			access directly
+			* Typically volatile
+		* Secondary storage
+			* Hard drives
+			* Extension of main memory that provides large
+			storage capacity
+			* Nonvolatile
+		* Tertiary
+			* CD ROM, Mag tape?
+			* Faster than hard disks
+			* Nonvolatile
+			* Expensive relative to hard disks
+		* Why does storage get slower as it gets larger?
+			* You need more bits to address larger storage
+			options. Cascaded circuit
+		* Register -> cache -> main memory -> ssd -> hard disk
+		-> optical disk -> magnetic tapes
+* Direct Memory Access
+	* Used for high speed I/O devices able to transmit
+	information at close to memroy speeds
+	* Device controller transfers blocks of data from buffer
+	storage directly to main memory without CPU intervention
+	* Only one interrupt is generated per block, rather than one	interrupt per byte
+		* one interrupt per byte = expensive
+* Computer System Architecture
+	* 15 years ago, most systems used a single general purpose
+	processor
+		* Most systems even today also have special purpose
+		processors
+	* Multiprocessor systems have grown in use and importance
+		* also known as parallel systems, tightly coupled
+		systems
+		* Advantages are
+			* increased throughput
+			* economy of scale
+			* increased reliability: graceful degradation or
+			fault tolerance
+		* two types
+			* Asymmetric multiprocessing: each processor
+			performs specialized tasks
+			* Symmetric multiprocessing: each processor
+			performs all tasks
+* Clusters
+	* Cluster = large number of coordinated computers
+	* Programs can execute in parallel across multiple computers
+		* Number of computers can scale with demand
+		* High performance computing clusters: thousands of
+		nodes
+	* A single computer can potentially be used by many programs
+		* more efficient use of hardware
+	* Provides redundancy in the face of hardware failure
+		* If there is a hardware failure, you can pick up what
+		that hardware was doing and move it to a different
+		computer without the process ever knowing it was moved
+* Protection and Security
+	* Protection: any mechanism for controlling access of
+	processes or users to resources defined by the OS
+	* Security: defense of the system against internal and
+	external attacks
+		* Huge range including: denail of service, worms,
+		viruses, identity theft, theft of service
+	* Protection and security is the job of the OS
