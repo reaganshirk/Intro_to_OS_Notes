@@ -1,0 +1,67 @@
+* Written details coming on Project 0 
+	* Default username and password for VM is osc
+	* In command line: ssh -p 2222 osc@localhost, give password
+* Command line prompts (for the third time this semester...)
+	* pwd: print working directory
+	* ls: list
+	* ls -l: long list (more details)
+	* la -a: show all files, even hidden
+	* cd: change directory
+	* cat: show file contents
+	* mkdir: make directory
+	* cp <file><directory> or cp <file><directory/new file
+	name>: copy
+	* rmdir: remove directory, doesn't want to remove
+	directories with stuff in them
+	* rm -rf: force remove
+	* wc: word count, count characters and words and lines
+	* |: piping
+	* top: gets statistics about currently running system
+* Other Key Unix Concepts/Tools
+	* Absolute vs Relative Paths
+	* Editors
+		* emacs
+		* nano
+		* vim
+	* sudo
+		* Execute commands as the administrator
+		* sudo shutdown -h now
+		* sudo means before I do the command, drop into
+		administrator mode and then execute the command
+			* machine might (will?) complain if you try this
+			in osc but it works with sudo
+* Generating executable file
+	* C file (.c)
+		* Translated by gcc compiler to machine specific code
+	* Object file (.o)
+		* Intermediate machine specific representation of just
+		what is a C file
+		* Linker: brings together multiple object files so
+		that all functions are known
+	* Executable (.exe)
+* GNU C Compiler (gcc)
+	* The compiler we'll be using
+* Executing an exe file
+	* Executable goes to loader, brings together executable and
+	dynamically linked libraries, then goes to the executing 
+	process
+* Compiling code bases
+	* As the set of files in a program gets large, we want to:
+		* Have a way to invoke the compiler easily
+		* Only compile the code that needs to be compiled
+		* Have a way to track which files depend on which
+		other files
+	* create and edit a file by doing emacs <filename> or nano
+	<filename>
+	* compile by doing gcc <filename>
+	* ls -la to find .exe or .out file or type 
+	gcc <code file> -o <out file> to specify which file to write
+	out to
+	* type ./<filename> to run the executable file 
+	* ctrl + x followed by ctrl + v will allow you to enter a
+	new file name and change files without exiting emacs editor
+	* Similar to Java classes, you can use multiple files in C.
+	To use one file in another file you need a header file that
+	contains the function definition for the funtion you are
+	trying to use. This is created as filename.h. You include it
+	by doing #include "filename.h"
