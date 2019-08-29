@@ -1,0 +1,276 @@
+* Office Hours
+	* Gregory: Tuesdays 4:30-5:30 and Thursdays 3:00-5:00
+	* Dorian: Mondays and Wednesdays from 1:00-3:00
+* Should be getting Project 0 next week 
+	* Installing virtual box, Ubuntu 1604 set up with key
+	packages already installed
+
+* Kernel-Level Data Structures
+	* Requirements
+		* Space and time efficient
+			* Many data structures exist over the lifetime 
+			of the system
+			* Queries and small changes to the data structure
+			must be quick
+			* We want things to be inexpensive and quick
+		* Secure
+			* Manipulated only in kernel mode
+			* Changes must leave the data structure in a
+			proper state
+			* Want an appropriate API
+		* LinkedLists are kernel data structures 
+			* Insert: O(1)
+			* Find: O(n)
+		* BST
+			* Access is O(log(n))
+		* Hash Functions
+			* Translate some many-byte data structure into a 
+			short hash value
+			* Small changes in the data structure mean
+			substantial changes in the hashed value
+			* These are typically one-way functions
+				* Given the hash value it's hard to
+				generate the original data
+				* Helps with collision I think?
+		* Hash Maps
+			* Associate a hash value with some other data
+			structure
+			* O(1) lookup and storage
+			* Hash table must be large relative to the number
+			of items stored
+		* Bitmaps
+			* A word is compsed of k bits
+			* If we need to store a set of boolean values, we
+			can map each to one of these bits
+			* Example: allocate table for k blocks on a hard
+			disk
+				* Each bit indicates whether the
+				corresponding block is used by a file or is
+				free to be allocated to new files
+				* 0XC7: blocks 3, 4, and 5 are free to be
+				used
+		* In modern operating systems, the data structures are
+		modularly implemented
+			* Used by different parts of the OS
+			* Satisfy security requirements
+			* Well tested and debugged
+* Distributed Computing
+	* Collection of separate, possibly heterogeneous, systems
+	networked together
+	* Goals: achieve the illusion of a single system
+	* Network is a communications path, TCP/IP most common
+	protocol
+		* TCP/IP is ensuring reliable communication between
+		devices/locations. You can call up another machine and
+		it sets off a stream where you can send bytes. Web
+		browsers are built off of this. You send a "get" 
+		request to a website when you go to it and it responds
+		with what you want
+		* Local Area Network (LAN)
+		* Wide Area Network (WAN)
+		* Metropolitain Area Network (MAN)
+		* Personal Area Network (PAN)
+* Client Server Computing
+	* Things like drop box
+	* Remote server provides some service to many different
+	clients
+	* File system storage and retrieval
+	* database
+	* map services
+	* image recognition
+	* messaging
+* Peer to Peer Systems
+	* networks that don't have a distinction between clients and
+	servers
+	* napster: a time when people were sending files around
+	(like illegal music), napster tried to make it easy to find
+	music and see who had copies of that music to make sharing 
+	easier. If you can demonstrate that you own a CD, they would
+	serve that music to you over the network (legitamate side)
+	* All nodes are considered peers
+	* May each act as client, server, or both
+	* node must join p2p network
+		* Registers its service with central lookup on network
+		* broadcast requrest for service and respond to
+		requests for service via discovery protocol 
+	* One end doesn't have to know who is talking to it
+* Virtualization
+	* Allows using programs that are compiled for one OS on
+	another OS
+		* i.e. using a virtual machine to run powerpoint on a
+		machine running a linux OS
+	* Allows OS to run applications within other OSes
+	* Emulation used when source CPU type different from target
+	type
+		* generally slow
+		* when computer language not compiled to native code,
+		interpretation is required
+	* Virtualization: OS natively compiled for CPU, running
+	guest on OSes that are also natively compiled
+		* VMWare running WinXP guests, each running
+		applications, all on native WinXP host OS
+		* VMM provides virtualization services
+	* Machines don't know that they're running concurrently or
+	that there is a virutal machine manager (VMM)
+	* VMM can run natively in which case they are also the host
+		* There is no general purpose to host then
+	* Ability to start building data centers like google cloud
+	or AWS
+* Cloud computing
+	* Allows us to have a large number of virtual machines at
+	our disposal and very efficiently make use of physical
+	resources that are available
+		* i.e. one physical computer but a bunch of virtual
+		machines are on top of it
+	* Delivers computing, storage, apps as a service across a 
+	network
+	* Logical extension of virtualization becuase it uses
+	virtualization as a base
+	* Environments composed of traditional OSes plus VMMs and
+	cloud management tools
+	* Load balancing issues- load balancers spread traffic
+	across multiple machines
+		* Can move VMs to another phyiscal bit of hardware to
+		keep the machine from working too hard
+	* Service downtime is very small
+* Real time embedded systems
+	* Small but incredibly prevalent form of computers
+		* Cars, space robots
+			* Might control the break system on one wheel
+		* Vary a lot, special purpose systems, limited
+		purpose OS
+		* Real time OS
+		* Use expanding
+	* Many other special computing environments as well
+		* Some have OSes, some perform tasks without one
+	* Real time OS has well defined and fixed time constraints
+		* Processing must be done within constraint
+		* Correct operation only if constraints met
+* Open Source OS
+	* Full source code available for some OSes
+	* Individuals can make changes to the source and build their
+	own version
+	* Changes can be integrated back into the main distribution	
+	* Many 'eyes' on the source code: improved quality
+		* Just discovered at Def Con: malicious code was
+		inserted into linux component that allows
+		administrator level privileges under certain
+		conditions
+
+OS Internals
+
+* File abstraction
+	* What does a file represent?
+		* Data represented in a certain way stored on a
+		machine
+		* Series of bits that have been coded in such a way
+		that they are useful
+* Representing an open file
+	* What do we need to store in our OS so we can open a file?
+		* Know where the file is on the disk
+		* Access privileges
+		* The fact that it's open (lol)
+		* Where we're at in the file
+			* i.e. which byte is the current point of access
+				* byte number of the next access
+				* When we read a byte from the file, the 
+				value is returned
+					* the point of access increments
+				* When we write a byte to the file, the new
+				value is written to the point of access
+					* point of access increments
+* Stream
+	* Generalization of what we think of as a file: any sequence
+	of bytes
+		* Communication between processes
+		* Communication between computers
+		* A model for some I/O modes (USB, audio, video,
+		shells)
+			* In unix, all communication of byte sequences
+			is done through streams
+* Command Line Interfaces
+	* Textual interface for user to interact with the system
+		* In some OSes, it is a kernel component, in other	
+		OSes, it is a system program
+		* Parses text input (commands and parameters) and
+		executes the command
+		* Faster than using a GUI
+* User space programs: accessing resources
+	* Has a set of its own resources including the stack, heap,
+	etc
+	* Want to copy the contents of a file byte by byte to
+	another destination.
+		* Need to ask the OS to do things on our behalf
+* System calls
+	* Programming interface to the services provided by the OS
+	* Typically C or C++
+	* Mostly accessed by programs via a high-level API rather 
+	than direct system call use
+* System Call Process
+	* Safety is priority
+	* There is one common entry point for all system calls
+		* through the sys call "trap" instruction
+	* Each system call is referenced using a unique number
+	* Each has its own set of arguments to be transferred
+	* The trap instruction switches the processor state from
+	user to kernel mode
+	* The trap handler function then translates the sys call
+	number into an appropriate function call
+	* We don't want the user program level to be able to start
+	executing instructions anywhere in the kernel program. Extra
+	level of indirection gives user access to very specific
+	points in the kernel to keep them from losing security
+* Passing Parameters to Kernel Level
+	* More information is required than simply the identity of 
+	desired system call
+	* Three general methods used to pass parameters to the OS
+		* Simplest: pass the parameters in registers
+		* parameters stored in a block or table in memory and
+		address of block passed as a parameter in a register
+		* parameters placed or pushed onto the stack by the
+		program and popped off the stack by the OS
+	* Block and stack methods to not limit the number or length
+	of parameters being passed
+* Using the API
+	* All system calls from the API return a value indicating
+	success or error
+		* See system calls man page for details about the
+		meaning of the return value
+	* int errno is a global variable that is set by the kernel
+	side of the system call to provide more details about any
+	error that has occured
+		* many use -1 to indicate an error then you can use 
+		errno to get more details
+	* A variety of available functions will make it easy to
+	translate the error number into a textual description
+* System calls for process control
+	* Create and terminate processes
+	* load, execute
+	* get and set process atrributes
+	* wait for time
+		* might want to stop and give another process time to
+		execute
+	* wait and signal event
+	* allocate and free memory
+	* Dump memory if error
+	* locks for managing access to shared data between processes
+	* debugger for determining bugs, single step execution
+* System calls for file manipulation
+	* Create, delete, open, close, read, write, reposition
+	* get and set
+* System calls for device management
+	* Request and release device
+	* read, write, reposition
+	* get and set attributes
+* System calls for system monitoring and control
+	* get/set time and date
+	* get/set system data
+	* get/set process, file, device attributes
+	* control access to resoures
+* Example: MS-DOS
+	* MS-DOS is an old microsoft OS with no GUI
+	* Single task system
+	* At time of boot, lots of free memory
+	* Invoke a new program
+		* system call allocates the necessary space in memory
+		and begins program execution
