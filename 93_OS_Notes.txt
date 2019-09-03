@@ -1,0 +1,57 @@
+* ssh connects your shell to the destination host
+	* the destination host starts a copy of the shell on its own
+	that is independent of the shell on your machine
+	* Your input is no longer processed by your own shell, it is
+	transferred to the shell in the destination host
+	* hostname will tell you which machine you're using to help
+	you keep track
+	* virtual machines don't have interesting names but your 
+	machine probably will
+* in our case...
+	* virtual machine and shell both sit on top of our personal
+	machines
+	* ssh -p 2222 localhost contacts port 2222 of our personal
+	machine that connects us to the virtual machine
+	* this starts a shell that is sitting on top of the virtual
+	machine
+	* anything that is typed in the actual machine shell get
+	passed onto the virtual machine shell
+* makefile
+	* represents a set of rules about how to make things
+	* the top rule is executed by default
+	* other rules are invoked as necessary	
+	* makefile example:
+	all: hello
+	hello: hello.c
+		gcc hello.c -o hello
+* Processes and Memory
+	* On process creation, the process is effectively given its
+	own memory space
+		* Text: storage of code
+		* data: global variables (preallocated space)
+		* heap: dynamically allocated space
+		* stack: local variable storage
+* Variables
+	* Every variable declaration results in an allocation of
+	memory
+	* For primitive data types, the name of the variable refers
+	to the value that is stored in the corresponding memory 
+	location
+	* We can get to the actual memory location:
+		int a = 5;
+		&a refers to the address in memory
+* Arrays
+	* An array of some type
+		* memory is allocated for storage of all items in a 
+		contiguous block of memory
+			int[] list = [7, 7, 4] // length = 3
+		* list refers to the address of the first item in the
+		array
+			* list[0] returns 7, list [2] returns 4
+			* &list[2] returns the address where 4 is stored
+* Project 0
+	* Officially released tonight, due in a week
+	* requires
+		* VM
+		* writing and compiling code
+		* Makefile
