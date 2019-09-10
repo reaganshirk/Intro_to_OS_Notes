@@ -1,0 +1,27 @@
+* Low Level File/Stream Identification
+	* File descriptor
+		* A nonnegative integer that may refer to
+			* regular files, pipes, FIFOs, sockets,
+			terminals, or devices
+		* each process has its own assigned set of file
+		descriptors, has its own table
+		* Used by the system to refer to files, not file
+		names
+			* The file name is converted to the file
+			descriptor
+		* When requrested, the lowest numbered unused file
+		descriptor is assigned
+* Standard file descriptors
+	* When a process stars executing, it is generally given
+	three standard file descriptors that are already open
+		* This includes programs that are started by your
+		shell
+	* Standard in: input to the process, getchar() or scanf()
+	* Standard out: default output from the process, puts() or
+	printf()
+	* Standard error: separate output for error information
+	only. fputs() fprintf()
+	* We can trick these into doing other things even though 
+	they're made to think/act a certain way
+* Sorry my notes suck I got no sleep last night so I'm struggle
+hustling and I can't keep up with all of the code he's doing
