@@ -1,0 +1,134 @@
+* No class on Thursday (9/12) because of career fair, office
+hours will be on Canvas during class time that day
+* Todays Agenda
+	* Bit manipulation
+	* Project 1 Intro
+	* More library functions
+	* File systems
+* Bit-Wise Operators
+	* If A and B are bytes, what does this code mean?
+		* C = A & B;
+		* Single & instead of &&
+		* Single & is an and operation that operates on the
+		individual bits
+		* Example
+		0 1 0 1 1 1 1 0 --> A
+		1 0 0 1 1 0 1 1 --> B
+		0 0 0 1 1 0 1 0 --> C
+		* Any string of bits that is non-zero is true
+			* We are assuming an 8 bit value
+* Other operators
+	* OR: |
+	* NOT: ~
+	* XOR: ^
+	* shift left: <<
+	* shift right: >>
+		* All of the above are bit wise operations, not
+		boolean operations
+* Left/right shifts
+	* 5 << 2
+		* 10100 --> 20
+	* 5 >> 2 --> 1
+* Putting the Bit-Wise Operators to Work: Bit Manipulation
+	* Assume a variable A is declared as:
+		* uint8_t A;
+	* What is the code that allows us to set bit 2 of A to 1?
+	(We start counting bits from 0)
+		* (1) A7, A6, A5, A4, A3, A2, A1, A0
+		* (2) 0, 0, 0, 0, 0, 1,  0, 0
+			* Use a bit wise OR operation (|) 
+		* (1) OR (2) gives the desired outcome
+			* A7, A6, A5, A4, A3, 1, A1, A0
+		* In code...
+			* A = A|4, A = A|(1<<2)
+	* Set bit 2 of A to zero
+		* (1) A7, A6, A5, A4, A3, A2, A1, A0
+		* (2) 1,  1,  1,  1,  1,  0,  1,  1
+			* Use a bit wise AND operation (&)
+		* (1) AND (2) gives the desired outcome
+			* A7, A6, A5, A4, A3, 0, A1, A0
+		* In code...
+			* A = A & 0xFB
+			* A = A & ~(1 << 2)
+	* Another Example
+		* uint8_t A = 0x5A;
+		* uint8_t B = A << 2;
+		* uint8_t C = A >> 2;
+		* What are B and C?
+			*0x5A = 01011010
+			* B = 01101000
+				* First two bits of A get shifted off
+			* C = 00000010
+				* Last 5 bits of A get shifted off, fills
+				in with 0s from the front
+		D = B >> 5
+			* D = 00000011
+* Project 1
+	* Have a 128 byte buffer sitting in memory. Create user
+	interface that will allow user to store bytes at certain
+	values. 
+	* Can write the buffer out to a file, specify by location.
+	Can also read starting at a certain location. 
+	* Bonus available if certain tests are passed by next
+	Wednesday. Extra 5%
+* memset()
+	#include<string.h>
+	void *memset(void *s, int c, size_t n);
+	* Set the first n bytes in s to the value c
+	* returns s
+	* Good for initializing buffers without a constant
+* memcpy()
+	* Low level byte copy
+	#include <string.h>
+	void *memcpy(void *dest, const void *src, size_t n)
+	* Copy n bytes from src to dest
+	* unsigned char buf[200]; creates the buffer
+	* &buf[10]; gives the value at that index
+	int foo = 5;
+	numcpy(&buf[20], &foo, sizeof(foo));
+* scanf()
+	int i;
+	float f;
+	int ret = scanf("%d %f", &i, &f);
+	* format string: same meaning as printf()
+	* fills in the values for i and f
+	* returns the numer of arguments that have been parsed. If 
+	this number does not match the number you expect, something
+	went wrong
+* sscanf()
+	* Parsing formatted input from a character buffer
+		int i;
+		float f;
+		char buffer[200];
+		// Buffer has been filled with a string
+		int ret = sscanf(buffer, "%d %f", &i, &f);
+* File Systems
+	* Low Level Representation of a File (or a Stream)
+		* Sequence of bytes
+		* Current position tells us where in the file we are
+		currently at. Formally called the file offset
+		* Files have a definitive start and end
+	* Low Level File/Stream ID
+		* File descriptor
+			* A nonnegative integer that may refer to regular
+			files, pipes, FIFOs, sockets, terminals, or
+			devices
+			* Each process has its own assigned set of file
+			descriptors
+			* Used by the system to refer to files instead of
+			filenames
+	* Open
+		
+		* int open(const char *pathname, int flags, ... /*
+		mode_t mode */);
+		* fd = open("startup", O_RDONLY);
+		* fd = open("myfile", O_RDWR | O_CREAT | O_TRUNC,
+		S_IRUSR | S_IWUSR);
+		* FD = OPEN("w.log", O_WRONLY | O_CREAT | O_APPEND,
+		S_IRUSR | S_IWUSR);
+	* a NOTE
+		* errExit() is not a standard function
+		* Instead, use
+			perror("error describing text");
+			exit(-1)
+		* This will print your message and then terminate
