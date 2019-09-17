@@ -1,0 +1,196 @@
+* More shit on files
+	* File descriptors and open/close/read/write: a low level
+	mechanism for representing and operating on a file (or
+	stream)
+		* Writing is immediate: all written data are sent to
+		the file
+			* Can be problemativ if we are calling write()
+			for individual bytes
+		* Limited support for formatting of data (esp for
+		translating raw data into strings of characters)
+* STDIO library
+	* Adds another level of abstraction
+		* In memory buffer for read/write operations
+			* Program spends less time doing I/O operations
+		* API is more user friendly
+		* Higher level mechanisms for formatted I/O
+			* printf, fprintf, sprint
+			* scanf, fscanf, sscanf
+			* fopen, fclose
+			* fflush
+				* Program is impatient and wants data to
+				get out of the buffer and into the file,
+				immediately pushes data to file
+* File descriptors vs file pointesr
+	* file descriptor
+		* int type that references a table of open streams
+		* can reference files, pipes, or sockets
+		* access through system calls (open, read, write,
+		close)
+	* file pointers (FILE*)
+		* defined in stdio.h
+		* includes the file descriptor but adds buffering and
+		other features
+		* access through fopen, fread, fwrite, fclose,
+		fprintf, fscanf
+		* when working with files it's the preffered interface
+
+#include <stdio.h>
+int main(int argc, char** argv)
+	FILE* fp = fopen(argv[1], "w");
+	if (fp == NULL)
+		printf("error opening");
+	else
+		fprintf(fp, "Foo bar: %s\n", argv[1]);
+		fclose(fp);
+
+* Another file open
+	* freopen: opens the file and associates with with the
+	<stream> FILE
+	* if <stream> is already an open file, then it's closed
+	first
+	* returns <stream> if successful
+	* useful for substituting file for the stdin stream
+* flushing streams
+	* fprintf doesn't affect the file immediately because FILE
+	streams are bufffered
+	* Instead bytes are dropped into a buffer
+* good practices
+	* Shouldn't mix file descripters and file pointers
+		* Printfs go to buffers and writes go immediately to
+		stdout, things could show up out of order
+	* fdopen will wrape a FILE around a descriptor, rare that
+	you would want to use this though
+	* Stick with file descriptors for our projects
+* trick for formatted output
+	* printf("%02x", i)
+		* Prints in hex, exactly 2 digits
+	* printf("%02.4f", f)
+		* Prints 2 digits on the left and 4 digits on the
+		right in hex
+* Processes
+	* Program is passive entity stored on disk (executable file)
+	process is active
+		* Program becomes a process when executable is loaded
+		into memory
+	* Execution of program started via GUI mouse clicks, command
+	line, etc
+	* One program can be several processes
+		* consider multiple users executing the same program
+* Process and memory
+	* on process created, the process is effectively given its own memory space
+	* text: storage of code
+	* data: global variables
+	* heap: dynamically allocated space (malloc - allocating
+	memory in heap)
+		* want to avoid malloc when possible but need it in
+		one spot for project 1
+	* stack: local variable storage
+* Process state
+	* A process is in exactly one state at any time:
+		* new: process is being created
+		* running: instructions are executed
+		* waiting: process is waitng for event to occur
+		* ready: process is waiting to be assigned to a
+		processor
+		* terminated: the process has completed execution
+	* What is a process an abstraction of?
+		* ... ?
+		* He's showing us a diagram that resembles the shape
+		of ovaries, something about a finite state machine? 
+			* new to ready, ready to running, running to
+			either terminated, ready, or waiting, waiting to
+			ready
+* Kernel data structure: process control block
+	* Have one for every executing process
+	* details differ between OSes
+	* Keeps track of what state the process is running in
+	* Keeps track of program counter
+	* CPU registers might be getting used so it has to remember
+	all of that state information as well
+	* CPU scheduling information- priorities, scheduling queue
+	pointers. Some processes get higher priority to do their
+	thing over others
+	* Memory management information: process needs space in
+	memory to store shit, information about how the data is
+	stored is kept in the process control block (pcb)
+	* What I/O devices are we talking to, what open files do we
+	have?
+* Process Representation in Linux
+	* pid t_pid
+	* long state
+	* unsigned int time_slice
+	* struct task_struct *parent
+	* struct list_head children
+	* struct files_struct *files
+	* struct nm_struct *nm
+		* not sure if that's supposed to be nm or mm
+* Process Scheduler
+	* Sorry I missed everything on process scheduling
+	* Maintains scheduling queues of processes
+		* Job queue: set of all processes in the system
+		* Ready queue: set of all processes residing in main
+		memory, ready and waiting to execute
+		* Device queues: set of processes waiting for an I/O 
+		device
+		* Processes migrate among the various queues depending
+		(in part) on their state
+	* Queueing diagram represents queues, resources, flows
+* "It must be a computer architect who wrote this" I think that
+was his way of throwing shade
+* Scheduler Components
+	* Short term scheduler selects which process should be
+	brought into the ready queue
+		* long term scheduler is invoked infrequently so it
+		may respond slowly
+		* long term scheduler controls the degree of
+		multiprogramming
+		* Most important in older resource bound systems
+	* Can be described as either
+		* I/O bound: spends more time doing I/O, many short
+		CPU bursts
+		* CPU bound: spends more time doing computations, very
+		few CPU bursts
+		* Long term scheduler strives for good mix of these
+		processes in the ready state which gives the ability
+		to efficiently use our resources
+* Medium Term Scheduling
+	* can be added if degree of multiple programming needs to
+	decrease
+	* remove process temporarily from memory, store on disk,
+	bring back in from disk to contuniue execution: swapping
+* Multitasking on Mobile Systems
+	* Some mobile systems allow only one process to run; others are suspended (like early iOS)
+	* Due to screen real estate and UI limits, iOS provides for:
+		* single foreground process: controlled via UI
+		* Multiple background processes: in memory and running
+		but not on display
+		* Limits include single, short task, receiving
+		notification of events, specific long-running tasks
+		like audio playback
+	* Android runs foreground and background processes
+* Context Switching
+	* take one process off of the CPU and bring another process
+	onto it
+	* Context of a process represented in the PCB
+	* Context siwtch time is overhead; the system does no useful
+	work while switching
+		* the more complex the OS and PCB, the longer the
+		switch
+		* time is dependent on hardware support
+		* some hardware provides multiple sets of registers
+		per CPU
+			* allows multiple contexts to be loaded at once
+* Process Creation
+	* Parent process creates child processes. This creates other
+	processes, forming a tree of processes
+	* Generally, the process is identified and managed via a
+	process identifier (pid)
+	* Resource sharing options
+		* parent and child share all resources
+		* child share some of parents resources
+		* child shares none of parents resources and vice
+		versa
+	* Execution options
+		* parent and child execute concurrently
+		* parent waits until children terminate
